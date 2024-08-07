@@ -1,0 +1,73 @@
+PODS:
+  - ASN1Swift (1.2.7)
+  - HandyText (1.4.5)
+  - NVActivityIndicatorView (5.2.0):
+    - NVActivityIndicatorView/Base (= 5.2.0)
+  - NVActivityIndicatorView/Base (5.2.0)
+  - ReachabilitySwift (5.2.3)
+  - Realm (10.52.0):
+    - Realm/Headers (= 10.52.0)
+  - Realm/Headers (10.52.0)
+  - RealmSwift (10.52.0):
+    - Realm (= 10.52.0)
+  - SDWebImage (5.19.2):
+    - SDWebImage/Core (= 5.19.2)
+  - SDWebImage/Core (5.19.2)
+  - SnapKit (5.7.1)
+  - SwiftyReceiptValidator (7.0.0)
+  - Toast-Swift (5.1.1)
+  - TPInAppReceipt (3.4.1):
+    - TPInAppReceipt/Core (= 3.4.1)
+  - TPInAppReceipt/Core (3.4.1):
+    - ASN1Swift (~> 1.2.6)
+
+DEPENDENCIES:
+  - HandyText (from `https://github.com/mmrmmlrr/HandyText`, branch `feature/v2`)
+  - NVActivityIndicatorView
+  - ReachabilitySwift
+  - RealmSwift (~> 10)
+  - SDWebImage (~> 5.0)
+  - SnapKit
+  - SwiftyReceiptValidator
+  - Toast-Swift
+  - TPInAppReceipt
+
+SPEC REPOS:
+  trunk:
+    - ASN1Swift
+    - NVActivityIndicatorView
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
+    - SDWebImage
+    - SnapKit
+    - SwiftyReceiptValidator
+    - Toast-Swift
+    - TPInAppReceipt
+
+EXTERNAL SOURCES:
+  HandyText:
+    :branch: feature/v2
+    :git: https://github.com/mmrmmlrr/HandyText
+
+CHECKOUT OPTIONS:
+  HandyText:
+    :commit: 040f81a9d348ca2cc16717db13e41390cc73795d
+    :git: https://github.com/mmrmmlrr/HandyText
+
+SPEC CHECKSUMS:
+  ASN1Swift: bbd56c299b2084ba71bd7d7769c6202451598948
+  HandyText: bde8751ca10e736b09ad61c358b317e440d747e3
+  NVActivityIndicatorView: fe52a6a68664c2df8991d7d9e3d86d8d19453c53
+  ReachabilitySwift: 7f151ff156cea1481a8411701195ac6a984f4979
+  Realm: d1903aeb0b3585d810656c2ea04212bc1936ebc7
+  RealmSwift: f7a85c86e61c6da6f6ef334778af3d133b0edf28
+  SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
+  SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
+  SwiftyReceiptValidator: d21faf8f210996fcad241d49627736f713db4529
+  Toast-Swift: 7a03a532afe3a560d4044bc7c237e2864d295173
+  TPInAppReceipt: 22dbc616bcd6c61672ebe062e60b6329a2af6323
+
+PODFILE CHECKSUM: f18fa9c29861d0525dbfc585e0681a64ab50aef7
+
+COCOAPODS: 1.15.2

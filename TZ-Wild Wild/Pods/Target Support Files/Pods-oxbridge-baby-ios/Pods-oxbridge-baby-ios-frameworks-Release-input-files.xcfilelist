@@ -1,0 +1,12 @@
+${PODS_ROOT}/Target Support Files/Pods-oxbridge-baby-ios/Pods-oxbridge-baby-ios-frameworks.sh
+${BUILT_PRODUCTS_DIR}/ASN1Swift/ASN1Swift.framework
+${BUILT_PRODUCTS_DIR}/HandyText/HandyText.framework
+${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework
+${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework
+${BUILT_PRODUCTS_DIR}/Realm/Realm.framework
+${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
+${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
+${BUILT_PRODUCTS_DIR}/SwiftyReceiptValidator/SwiftyReceiptValidator.framework
+${BUILT_PRODUCTS_DIR}/TPInAppReceipt/TPInAppReceipt.framework
+${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework
