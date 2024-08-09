@@ -20,5 +20,11 @@ class ViewController: UIViewController {
     navigationController?.pushViewController(controller, animated: true)
   }
   
+  @IBAction func showAboutViewContoller(_ sender: Any) {
+    let storyBoard = UIStoryboard(name: "AboutViewContoller", bundle: nil)
+    let controller = storyBoard.instantiateViewController(withIdentifier: "AboutViewContoller") as! AboutViewContoller
+    present(controller, animated: true)
+  }
+  
 
 }

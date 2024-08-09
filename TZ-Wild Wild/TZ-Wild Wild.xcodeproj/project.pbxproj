@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E441E9F22C66913300A1D490 /* AboutViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E441E9F12C66913300A1D490 /* AboutViewContoller.swift */; };
+		E441E9F42C66917100A1D490 /* AboutViewContoller.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E441E9F32C66917100A1D490 /* AboutViewContoller.storyboard */; };
+		E441E9F62C66A99600A1D490 /* GameModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E441E9F52C66A99600A1D490 /* GameModule.swift */; };
 		E477168D2C63F52E007CCF05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E477168C2C63F52E007CCF05 /* AppDelegate.swift */; };
 		E477168F2C63F52E007CCF05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E477168E2C63F52E007CCF05 /* SceneDelegate.swift */; };
 		E47716912C63F52E007CCF05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47716902C63F52E007CCF05 /* ViewController.swift */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E441E9F12C66913300A1D490 /* AboutViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewContoller.swift; sourceTree = "<group>"; };
+		E441E9F32C66917100A1D490 /* AboutViewContoller.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AboutViewContoller.storyboard; sourceTree = "<group>"; };
+		E441E9F52C66A99600A1D490 /* GameModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModule.swift; sourceTree = "<group>"; };
 		E47716892C63F52E007CCF05 /* TZ-Wild Wild.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TZ-Wild Wild.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E477168C2C63F52E007CCF05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E477168E2C63F52E007CCF05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E441E9F02C66911E00A1D490 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				E441E9F12C66913300A1D490 /* AboutViewContoller.swift */,
+				E441E9F32C66917100A1D490 /* AboutViewContoller.storyboard */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
 		E47716802C63F52E007CCF05 = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +81,7 @@
 			children = (
 				E477168C2C63F52E007CCF05 /* AppDelegate.swift */,
 				E477168E2C63F52E007CCF05 /* SceneDelegate.swift */,
+				E441E9F02C66911E00A1D490 /* About */,
 				E47716AA2C63FFBD007CCF05 /* Main */,
 				E47716A92C63FFAC007CCF05 /* Game */,
 				E47716AB2C640303007CCF05 /* Settings */,
@@ -81,6 +97,7 @@
 			children = (
 				E47716A52C63FD05007CCF05 /* GameViewController.swift */,
 				E47716A72C63FF93007CCF05 /* GameViewController.storyboard */,
+				E441E9F52C66A99600A1D490 /* GameModule.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -166,6 +183,7 @@
 				E47716AF2C640446007CCF05 /* SettingsViewController.storyboard in Resources */,
 				E47716992C63F530007CCF05 /* Base in Resources */,
 				E47716942C63F52E007CCF05 /* Base in Resources */,
+				E441E9F42C66917100A1D490 /* AboutViewContoller.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +199,8 @@
 				E477168D2C63F52E007CCF05 /* AppDelegate.swift in Sources */,
 				E47716AD2C640321007CCF05 /* SettingsViewController.swift in Sources */,
 				E477168F2C63F52E007CCF05 /* SceneDelegate.swift in Sources */,
+				E441E9F62C66A99600A1D490 /* GameModule.swift in Sources */,
+				E441E9F22C66913300A1D490 /* AboutViewContoller.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

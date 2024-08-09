@@ -9,15 +9,20 @@ import UIKit
 
 class SettingsViewController: UIViewController {
   
+  weak var delegate: SettingsViewControllerDelegate?
+  
   @IBAction func closeSettings(_ sender: Any) {
     dismiss(animated: true)
   }
   
   @IBAction func exitGame(_ sender: Any) {
-    dismiss(animated: true)
-    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-    let controller = storyBoard.instantiateViewController(withIdentifier: "Main") as! ViewController
-    navigationController?.pushViewController(controller, animated: true)
+    dismiss(animated: true) {
+      self.delegate?.settingsViewControllerDidRequestExitGame(self)
+    }
   }
   
+}
+
+protocol SettingsViewControllerDelegate: AnyObject {
+  func settingsViewControllerDidRequestExitGame(_ controller: SettingsViewController)
 }
