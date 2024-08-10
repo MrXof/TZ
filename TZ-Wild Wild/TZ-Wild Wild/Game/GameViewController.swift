@@ -9,9 +9,8 @@ import UIKit
 
 final class GameViewController: UIViewController {
   
-  @IBOutlet weak var airPlaneImageView: UIImageView!
   @IBOutlet weak var partsView: UIView!
-  @IBOutlet weak var cloud: UIImageView!
+  @IBOutlet weak var scoreLabel: UILabel!
   
   private let module = GameModule()
   private var cloudAnimations: [UIImageView: (startX: CGFloat, duration: TimeInterval)] = [:]
@@ -20,13 +19,14 @@ final class GameViewController: UIViewController {
   var currentPosition = Int()
   var clouds: [UIImageView] = []
   var gameIsRunning = true
-  
+  var airplane: UIImageView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
     startCloudsAnimation()
     setupBinding()
+    self.setImageViewPosition()
   }
   
   @IBAction func showSettingsDetails(_ sender: Any) {
@@ -46,7 +46,7 @@ final class GameViewController: UIViewController {
     module.moveDown()
     self.setImageViewPosition()
   }
-      
+  
 }
 
 private extension GameViewController {
@@ -61,11 +61,18 @@ private extension GameViewController {
   }
   
   func setImageViewPosition() {
+    if airplane == nil {
+      airplane = UIImageView(image: UIImage(systemName: "airplane"))
+      airplane.tintColor = .red
+      partsView.addSubview(airplane)
+    }
+    
     let partHeight = partsView.frame.height / CGFloat(self.module.parts)
-    let newY = partHeight * CGFloat(self.currentPosition) + (partHeight - self.airPlaneImageView.frame.height) / 2
+    airplane.frame.size = CGSize(width: 70, height: partHeight)
+    let newY = partHeight * CGFloat(self.currentPosition) + (partHeight - self.airplane.frame.height) / 2
     
     UIView.animate(withDuration: 0.3) {
-      self.airPlaneImageView.frame.origin.y = newY
+      self.airplane.frame.origin.y = newY
       self.view.layoutIfNeeded()
     }
   }
@@ -78,7 +85,7 @@ private extension GameViewController {
   
   func createAndAnimateCloud() {
     let cloud = UIImageView(image: UIImage(systemName: "cloud.fill"))
-    cloud.tintColor = .white
+    cloud.tintColor = .gray
     clouds.append(cloud)
     
     let startX = partsView.frame.width

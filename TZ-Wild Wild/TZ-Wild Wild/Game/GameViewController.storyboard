@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -107,46 +106,27 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMd-wK-MS4">
                                 <rect key="frame" x="15" y="139" width="363" height="500"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="airplane" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Rg0-cs-wRS">
-                                        <rect key="frame" x="0.0" y="225.66666666666666" width="50" height="48.666666666666714"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="er5-O9-ggZ"/>
-                                            <constraint firstAttribute="height" constant="50" id="qQZ-Cs-Cyb"/>
-                                        </constraints>
-                                    </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="exclamationmark.triangle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="DQV-nm-qzD">
-                                        <rect key="frame" x="293" y="217.66666666666666" width="70" height="64.999999999999972"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="70" id="0u1-li-FUg"/>
-                                            <constraint firstAttribute="width" constant="70" id="aPV-wU-OUg"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="500" id="76A-Pp-rdR"/>
-                                    <constraint firstItem="Rg0-cs-wRS" firstAttribute="leading" secondItem="LMd-wK-MS4" secondAttribute="leading" id="7dF-KH-yOX"/>
-                                    <constraint firstItem="Rg0-cs-wRS" firstAttribute="centerY" secondItem="LMd-wK-MS4" secondAttribute="centerY" id="F2Y-3V-pXQ"/>
-                                    <constraint firstItem="DQV-nm-qzD" firstAttribute="centerY" secondItem="LMd-wK-MS4" secondAttribute="centerY" id="Nz8-Hl-O13"/>
-                                    <constraint firstAttribute="trailing" secondItem="DQV-nm-qzD" secondAttribute="trailing" id="ihK-Fc-f1s"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="subviews">
-                                        <exclude reference="DQV-nm-qzD"/>
-                                    </mask>
-                                </variation>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMR-P9-cOV">
+                                <rect key="frame" x="138.66666666666666" y="84" width="116" height="36"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="wOT-ne-3h4" secondAttribute="bottom" constant="50" id="0IQ-Gu-yuW"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="CBj-f5-4QO" secondAttribute="trailing" constant="15" id="3Nn-ce-Sae"/>
+                            <constraint firstItem="sMR-P9-cOV" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="B7G-9c-rT2"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="LMd-wK-MS4" secondAttribute="trailing" constant="15" id="LOS-Og-zoX"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="CBj-f5-4QO" secondAttribute="bottom" constant="50" id="Y0n-Mp-CBc"/>
+                            <constraint firstItem="sMR-P9-cOV" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="25" id="bqp-bU-CFf"/>
                             <constraint firstItem="8uX-MR-Jch" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="35" id="hug-b9-RdM"/>
                             <constraint firstItem="LMd-wK-MS4" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="jYp-CI-kxg"/>
                             <constraint firstItem="wOT-ne-3h4" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="lE5-EQ-7TB"/>
@@ -157,9 +137,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="HKD-Iz-mCR"/>
                     <connections>
-                        <outlet property="airPlaneImageView" destination="Rg0-cs-wRS" id="yhT-wc-PHK"/>
-                        <outlet property="cloud" destination="DQV-nm-qzD" id="sOT-4G-alP"/>
                         <outlet property="partsView" destination="LMd-wK-MS4" id="kHS-sQ-Hd2"/>
+                        <outlet property="scoreLabel" destination="sMR-P9-cOV" id="MZQ-q3-gvv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -185,11 +164,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="airplane" catalog="system" width="128" height="115"/>
-        <image name="exclamationmark.triangle.fill" catalog="system" width="128" height="109"/>
         <image name="gearshape" catalog="system" width="128" height="123"/>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>

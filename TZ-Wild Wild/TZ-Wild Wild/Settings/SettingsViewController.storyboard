@@ -88,10 +88,9 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="vLG-Yf-9bd" secondAttribute="trailing" constant="16" id="6XW-C3-mAa"/>
-                                    <constraint firstItem="nFe-8K-bW7" firstAttribute="leading" secondItem="kdU-R2-YJu" secondAttribute="leading" constant="92" id="9CB-pa-T2h"/>
                                     <constraint firstAttribute="width" constant="300" id="FcD-Fs-CW2"/>
+                                    <constraint firstItem="nFe-8K-bW7" firstAttribute="centerX" secondItem="kdU-R2-YJu" secondAttribute="centerX" id="Hln-87-QSM"/>
                                     <constraint firstItem="vLG-Yf-9bd" firstAttribute="leading" secondItem="kdU-R2-YJu" secondAttribute="leading" constant="16" id="Tns-C3-kA0"/>
-                                    <constraint firstAttribute="trailing" secondItem="nFe-8K-bW7" secondAttribute="trailing" constant="92" id="UYc-Kz-Nag"/>
                                     <constraint firstItem="nFe-8K-bW7" firstAttribute="top" secondItem="kdU-R2-YJu" secondAttribute="top" constant="30" id="VqF-Ce-cFm"/>
                                     <constraint firstAttribute="trailing" secondItem="MrG-6F-boK" secondAttribute="trailing" constant="16" id="adf-r3-DqM"/>
                                     <constraint firstItem="MrG-6F-boK" firstAttribute="leading" secondItem="kdU-R2-YJu" secondAttribute="leading" constant="16" id="ftf-Ea-ggv"/>
@@ -114,6 +113,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Plf-El-MKw"/>
+                    <connections>
+                        <outlet property="scoreLabel" destination="nFe-8K-bW7" id="N7K-8v-35d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

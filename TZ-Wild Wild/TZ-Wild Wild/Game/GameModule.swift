@@ -12,6 +12,7 @@ final class GameModule: ObservableObject {
   let parts = 7
   let currentPosition = Observable(3)
   let gameIsRunning = Observable(true)
+  let gameScore = Observable(13)
   
   func moveUp() {
     if self.currentPosition.value > 0 {
@@ -30,6 +31,8 @@ final class GameModule: ObservableObject {
   }
   
 }
+
+// Make Observable
 
 class Observable<T> {
   
