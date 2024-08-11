@@ -14,12 +14,11 @@ final class GameViewController: UIViewController {
   
   private let module = GameModule()
   private var cloudAnimations: [UIImageView: (startX: CGFloat, duration: TimeInterval)] = [:]
-
   
   var currentPosition = Int()
   var clouds: [UIImageView] = []
   var gameIsRunning = true
-  var airplane: UIImageView!
+  var airplane: UIImageView?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -63,16 +62,20 @@ private extension GameViewController {
   func setImageViewPosition() {
     if airplane == nil {
       airplane = UIImageView(image: UIImage(systemName: "airplane"))
-      airplane.tintColor = .red
-      partsView.addSubview(airplane)
+      airplane?.tintColor = .red
+      if let airplane = airplane {
+        partsView.addSubview(airplane)
+      }
     }
+    
+    guard let airplane = airplane else { return }
     
     let partHeight = partsView.frame.height / CGFloat(self.module.parts)
     airplane.frame.size = CGSize(width: 70, height: partHeight)
-    let newY = partHeight * CGFloat(self.currentPosition) + (partHeight - self.airplane.frame.height) / 2
+    let newY = partHeight * CGFloat(self.currentPosition) + (partHeight - airplane.frame.height) / 2
     
     UIView.animate(withDuration: 0.3) {
-      self.airplane.frame.origin.y = newY
+      airplane.frame.origin.y = newY
       self.view.layoutIfNeeded()
     }
   }
@@ -99,22 +102,75 @@ private extension GameViewController {
     let startY = possiblePositionsY.randomElement()!
     
     cloud.frame = CGRect(x: startX, y: startY, width: cloudHeight, height: cloudHeight)
-    
     partsView.addSubview(cloud)
     
     let duration = TimeInterval(CGFloat.random(in: 4...8))
     
-    UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
-      cloud.frame.origin.x = -cloud.frame.width
-    }, completion: { _ in
-      cloud.removeFromSuperview()
-      if let index = self.clouds.firstIndex(of: cloud) {
-        self.clouds.remove(at: index)
+    let cloudAnimation = UIViewPropertyAnimator(duration: duration, curve: .linear) {
+      cloud.frame.origin.x = self.airplane?.frame.origin.x ?? -cloud.frame.width
+    }
+    
+    cloudAnimation.addCompletion { position in
+      if position == .end {
+        if self.checkCollision(with: cloud) {
+          self.handleCollision()
+        } else {
+          UIView.animate(withDuration: duration / 2, delay: 0, options: [.curveLinear], animations: {
+            cloud.frame.origin.x = -cloud.frame.width
+          }, completion: { _ in
+            cloud.removeFromSuperview()
+            if let index = self.clouds.firstIndex(of: cloud) {
+              self.clouds.remove(at: index)
+            }
+            if self.gameIsRunning {
+              self.createAndAnimateCloud()
+            }
+          })
+        }
       }
-      if self.gameIsRunning {
-        self.createAndAnimateCloud()
-      }
-    })
+    }
+    
+    cloudAnimation.startAnimation()
+  }
+  
+  func checkCollision(with cloud: UIImageView) -> Bool {
+    guard let airplane = airplane else { return false }
+    
+    let cloudFrame = cloud.frame
+    let airplaneFrame = airplane.frame
+    
+    print("Checking collision: cloudFrame = \(cloudFrame), airplaneFrame = \(airplaneFrame)")
+    
+    return cloudFrame.intersects(airplaneFrame)
+  }
+  
+  func handleCollision() {
+    let alert = UIAlertController(title: "Game Over", message: "You've collided with a cloud. Would you like to restart or exit?", preferredStyle: .alert)
+    
+    let restartAction = UIAlertAction(title: "Restart", style: .default) { _ in
+      self.restartGame()
+    }
+    let exitAction = UIAlertAction(title: "Exit", style: .destructive) { _ in
+      self.exitGame()
+    }
+    
+    alert.addAction(restartAction)
+    alert.addAction(exitAction)
+    
+    present(alert, animated: true, completion: nil)
+  }
+  
+  func restartGame() {
+    currentPosition = 0
+    clouds.forEach { $0.removeFromSuperview() }
+    clouds.removeAll()
+    setImageViewPosition()
+    startCloudsAnimation()
+    module.gameIsRunning.value = true
+  }
+  
+  func exitGame() {
+    navigationController?.popToRootViewController(animated: true)
   }
   
   func resumeCloudAnimation(cloud: UIImageView, startX: CGFloat, duration: TimeInterval) {
@@ -150,7 +206,6 @@ private extension GameViewController {
     }
     cloudAnimations.removeAll()
   }
-  
 }
 
 extension GameViewController: SettingsViewControllerDelegate {
@@ -165,5 +220,4 @@ extension GameViewController: SettingsViewControllerDelegate {
   func settingsViewControllerDidClose(_ controller: SettingsViewController) {
     resumeGame()
   }
-  
 }
