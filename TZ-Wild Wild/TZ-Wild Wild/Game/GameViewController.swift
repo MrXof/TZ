@@ -141,7 +141,7 @@ private extension GameViewController {
     }, completion: { _ in
       self.checkCollisions()
       if self.gameIsRunning {
-        let remainingDuration = duration - halfDuration
+        let remainingDuration = halfDuration * 0.1
         UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
           cloud.frame.origin.x = endX
         }, completion: { _ in
@@ -198,7 +198,7 @@ private extension GameViewController {
     }, completion: { _ in
       self.checkCollisions()
       if self.gameIsRunning {
-        let remainingDuration = duration - halfDuration
+        let remainingDuration = halfDuration * 0.1
         UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
           fuel.frame.origin.x = endX
         }, completion: { _ in
