@@ -67,7 +67,7 @@ private extension GameViewController {
   
   // MARK: - PlaneImageView
   
-  func setImageViewPosition() {
+  private func setImageViewPosition() {
     if airplane == nil {
       airplane = UIImageView(image: UIImage(systemName: "airplane"))
       airplane?.tintColor = .red
@@ -84,14 +84,12 @@ private extension GameViewController {
     airplane.frame.size = CGSize(width: width, height: height)
     let newY = partHeight * CGFloat(self.currentPosition) + (partHeight - height) / 2
     
-    airplane.frame.origin = CGPoint(x: airplane.frame.origin.x, y: newY)
-    
-    UIView.animate(withDuration: 0.3) {
+    let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut) {
       airplane.frame.origin.y = newY
-      self.view.layoutIfNeeded()
     }
+    
+    animator.startAnimation()
   }
-  
   
   // MARK: - Cloud
   
@@ -210,7 +208,6 @@ private extension GameViewController {
     return collision
   }
   
-  
   func updateCloudPosition(_ cloud: UIImageView) {
     let cloudFrame = cloud.frame
     if cloudFrame.origin.x < 0 {
@@ -228,7 +225,8 @@ private extension GameViewController {
   // MARK: Handle
   
   func handleCollision() {
-    let alert = UIAlertController(title: "Game Over", message: "You've collided with a cloud. Would you like to restart or exit?", preferredStyle: .alert)
+    pauseGame()
+    let alert = UIAlertController(title: "Game Over", message: "Score: \(module.gameScore.value)", preferredStyle: .alert)
     
     alert.addAction(UIAlertAction(title: "Restart", style: .default) { _ in
       self.restartGame()
@@ -243,7 +241,7 @@ private extension GameViewController {
   // MARK: - OtherSettings
   
   func restartGame() {
-    currentPosition = 0
+    currentPosition = 3
     clouds.forEach { $0.removeFromSuperview() }
     clouds.removeAll()
     fuels.forEach { $0.removeFromSuperview() }
@@ -285,49 +283,48 @@ private extension GameViewController {
   }
   
   func pauseGame() {
-    module.gameIsRunning.value = false
+    gameIsRunning = false
+    cloudAnimations.removeAll()
+    fuelAnimations.removeAll()
     
-    for (cloud, (startX, duration)) in cloudAnimations {
-      let cloudLayer = cloud.layer.presentation() ?? cloud.layer
-      let startX = cloudLayer.frame.origin.x
-      let duration = TimeInterval((partsView.frame.width - startX) / cloud.frame.width * 8.0)
-      cloudAnimations[cloud] = (startX: startX, duration: duration)
+    for cloud in clouds {
+      let duration = cloud.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
+        cloud.layer.animation(forKey: $0)?.duration
+      }.first ?? 0
+      cloudAnimations[cloud] = (startX: cloud.frame.origin.x, duration: duration)
       cloud.layer.removeAllAnimations()
     }
     
-    // Аналогічно для паливних крапель
-    for (fuel, startX, duration) in fuelAnimations {
-      let fuelLayer = fuel.layer.presentation() ?? fuel.layer
-      let startX = fuelLayer.frame.origin.x
-      let duration = TimeInterval((partsView.frame.width - startX) / fuel.frame.width * 8.0)
-      fuelAnimations.append((fuel, startX, duration))
+    for fuel in fuels {
+      let duration = fuel.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
+        fuel.layer.animation(forKey: $0)?.duration
+      }.first ?? 0
+      fuelAnimations.append((fuel, startX: fuel.frame.origin.x, duration: duration))
       fuel.layer.removeAllAnimations()
     }
   }
   
   func resumeGame() {
-    module.gameIsRunning.value = true
-    
+    gameIsRunning = true
     for (cloud, (startX, duration)) in cloudAnimations {
       resumeCloudAnimation(cloud: cloud, startX: startX, duration: duration)
     }
-    cloudAnimations.removeAll()
-    
     for (fuel, startX, duration) in fuelAnimations {
       resumeFuelAnimation(fuel: fuel, startX: startX, duration: duration)
     }
-    fuelAnimations.removeAll()
   }
-  
   
 }
 
 extension GameViewController: SettingsViewControllerDelegate {
-  
   func settingsViewControllerDidRequestExitGame(_ controller: SettingsViewController) {
-    resumeGame()
+    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+    let controller = storyBoard.instantiateViewController(withIdentifier: "Main") as! ViewController
+    navigationController?.pushViewController(controller, animated: true)
   }
   
+  func settingsViewControllerDidClose(_ controller: SettingsViewController) {
+    resumeGame()
+  }
 }
-
 
