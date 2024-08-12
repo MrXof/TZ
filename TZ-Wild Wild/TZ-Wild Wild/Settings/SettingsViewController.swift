@@ -16,7 +16,16 @@ class SettingsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    setupBinding()
   }
+  
+  func setupBinding() {
+    module.gameScore.observer { [weak self] newScore in
+      self?.scoreLAbel.text = "\(newScore)"
+    }
+  }
+  
+  @IBOutlet weak var scoreLAbel: UILabel!
   
   @IBAction func closeSettings(_ sender: Any) {
     delegate?.settingsViewControllerDidClose(self)

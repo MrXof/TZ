@@ -220,27 +220,24 @@ private extension GameViewController {
   // MARK: - Collision
   
   func checkCollisions() {
+    guard gameIsRunning else { return }
+    
     for cloud in clouds {
-      let collision = checkCollision(with: cloud.frame)
-      print("Checking collision with cloud at frame: \(cloud.frame)")
-      if collision {
-        print("Collision detected with cloud!")
+      if checkCollision(with: cloud.frame) {
         handleCollision()
         return
       }
     }
     
     for fuel in fuels {
-      let collision = checkCollision(with: fuel.frame)
-      print("Checking collision with fuel at frame: \(fuel.frame)")
-      if collision {
-        print("Collision detected with fuel!")
+      if checkCollision(with: fuel.frame) {
         module.gameScore.value += 1
         fuel.removeFromSuperview()
         fuels.removeAll { $0 == fuel }
       }
     }
   }
+
   
   func checkCollision(with endFrame: CGRect) -> Bool {
     guard let airplane = airplane else { return false }
@@ -352,18 +349,9 @@ private extension GameViewController {
     fuelAnimations.removeAll()
     
     for cloud in clouds {
-      let animationDuration = cloud.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
-        cloud.layer.animation(forKey: $0)?.duration
-      }.first ?? 0
-      cloudAnimations[cloud] = (startX: cloud.frame.origin.x, duration: animationDuration)
       cloud.layer.removeAllAnimations()
     }
-    
     for fuel in fuels {
-      let animationDuration = fuel.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
-        fuel.layer.animation(forKey: $0)?.duration
-      }.first ?? 0
-      fuelAnimations.append((fuel, startX: fuel.frame.origin.x, duration: animationDuration))
       fuel.layer.removeAllAnimations()
     }
   }
@@ -417,7 +405,9 @@ private extension GameViewController {
     
     sender.setTranslation(.zero, in: partsView)
     
-    checkCollisions()
+    if sender.state == .ended {
+      checkCollisions()
+    }
   }
 
 }
