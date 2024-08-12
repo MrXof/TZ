@@ -24,6 +24,13 @@ final class GameViewController: UIViewController {
   var gameIsRunning = true
   var airplane: UIImageView?
   
+  private var difficultyLevel: Int = 1
+  private let difficultyThreshold: [Int: (cloudDuration: ClosedRange<CGFloat>, fuelDuration: ClosedRange<CGFloat>)] = [
+    1: (cloudDuration: 4...8, fuelDuration: 4...8),
+    2: (cloudDuration: 3...7, fuelDuration: 3...7),
+    3: (cloudDuration: 2...6, fuelDuration: 2...6)
+  ]
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -65,6 +72,7 @@ private extension GameViewController {
     }
     module.gameScore.observer { [weak self] in
       self?.scoreLabel.text = "Score: \($0)"
+      self?.checkScoreAndUpdateDifficulty()
     }
   }
   
@@ -118,7 +126,8 @@ private extension GameViewController {
     cloud.frame = CGRect(x: startX, y: startY, width: cloudHeight, height: cloudHeight)
     partsView.addSubview(cloud)
     
-    animateCloud(cloud: cloud, startX: startX, duration: TimeInterval(CGFloat.random(in: 4...8)))
+    let duration = TimeInterval(CGFloat.random(in: difficultyThreshold[difficultyLevel]?.cloudDuration ?? 4...8))
+    animateCloud(cloud: cloud, startX: startX, duration: duration)
   }
   
   func animateCloud(cloud: UIImageView, startX: CGFloat, duration: TimeInterval) {
@@ -135,8 +144,10 @@ private extension GameViewController {
           cloud.frame.origin.x = endX
         }, completion: { _ in
           self.updateCloudPosition(cloud)
+          
           cloud.removeFromSuperview()
           self.clouds.removeAll { $0 == cloud }
+          
           if self.gameIsRunning {
             self.createAndAnimateCloud()
           }
@@ -147,7 +158,6 @@ private extension GameViewController {
       }
     })
   }
-  
   
   // MARK: - Fuel
   
@@ -173,7 +183,8 @@ private extension GameViewController {
     fuel.frame = CGRect(x: startX, y: startY, width: fuelHeight, height: fuelHeight)
     partsView.addSubview(fuel)
     
-    animateFuel(fuel: fuel, startX: startX, duration: TimeInterval(CGFloat.random(in: 4...8)))
+    let duration = TimeInterval(CGFloat.random(in: difficultyThreshold[difficultyLevel]?.fuelDuration ?? 4...8))
+    animateFuel(fuel: fuel, startX: startX, duration: duration)
   }
   
   func animateFuel(fuel: UIImageView, startX: CGFloat, duration: TimeInterval) {
@@ -370,7 +381,20 @@ private extension GameViewController {
     }
     fuelAnimations.removeAll()
   }
-
+  
+  func checkScoreAndUpdateDifficulty() {
+    switch module.gameScore.value {
+    case 0..<10:
+      difficultyLevel = 1
+    case 10..<20:
+      difficultyLevel = 2
+    case 20...:
+      difficultyLevel = 3
+    default:
+      break
+    }
+  }
+  
 }
 
 extension GameViewController: SettingsViewControllerDelegate {
