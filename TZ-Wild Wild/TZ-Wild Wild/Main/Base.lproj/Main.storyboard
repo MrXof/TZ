@@ -26,6 +26,9 @@
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="40"/>
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="showSettingsViewContoller:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GEI-TK-KsJ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.46274507050000002" green="0.7607843876" blue="0.94509804249999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

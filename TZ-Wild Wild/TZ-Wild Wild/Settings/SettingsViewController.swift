@@ -21,6 +21,7 @@ class SettingsViewController: UIViewController {
   }
   
   @IBAction func closeSettings(_ sender: Any) {
+    delegate?.settingsViewControllerDidClose(self)
     dismiss(animated: true)
   }
   
@@ -44,5 +45,6 @@ private extension SettingsViewController {
 
 
 protocol SettingsViewControllerDelegate: AnyObject {
-  func settingsViewControllerDidRequestExitGame(_ controller: SettingsViewController)
+    func settingsViewControllerDidRequestExitGame(_ controller: SettingsViewController)
+    func settingsViewControllerDidClose(_ controller: SettingsViewController)
 }

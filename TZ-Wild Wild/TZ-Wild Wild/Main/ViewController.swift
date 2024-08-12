@@ -26,5 +26,13 @@ class ViewController: UIViewController {
     present(controller, animated: true)
   }
   
-
+  @IBAction func showSettingsViewContoller(_ sender: Any) {
+    let alert = UIAlertController(title: "Coming Soon", message: "This feature is coming soon!", preferredStyle: .alert)
+    
+    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alert.addAction(okAction)
+    
+    present(alert, animated: true, completion: nil)
+  }
+  
 }

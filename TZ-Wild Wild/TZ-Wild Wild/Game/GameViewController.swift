@@ -118,7 +118,18 @@ private extension GameViewController {
     cloud.frame = CGRect(x: startX, y: startY, width: cloudHeight, height: cloudHeight)
     partsView.addSubview(cloud)
     
-    let duration = TimeInterval(CGFloat.random(in: 4...8))
+    let duration: TimeInterval
+    switch module.gameScore.value {
+    case 0..<10:
+      duration = TimeInterval(CGFloat.random(in: 4...8))
+    case 10..<15:
+      duration = TimeInterval(CGFloat.random(in: 6...10))
+    case 15..<20:
+      duration = 10
+    default:
+      duration = TimeInterval(CGFloat.random(in: 4...8))
+    }
+    
     let endX = -cloud.frame.width
     
     UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
@@ -131,11 +142,41 @@ private extension GameViewController {
         self.clouds.remove(at: index)
       }
       if self.gameIsRunning {
+        self.adjustCloudCount()
         self.createAndAnimateCloud()
       }
     })
   }
   
+  func adjustCloudCount() {
+    let currentCloudCount: Int
+    
+    switch module.gameScore.value {
+    case 0..<5:
+      currentCloudCount = 1
+    case 5..<10:
+      currentCloudCount = 2
+    case 10..<15:
+      currentCloudCount = 3
+    case 15..<20:
+      currentCloudCount = 4
+    default:
+      currentCloudCount = 1
+    }
+    
+    let difference = currentCloudCount - clouds.count
+    if difference > 0 {
+      for _ in 0..<difference {
+        createAndAnimateCloud()
+      }
+    } else if difference < 0 {
+      clouds.prefix(-difference).forEach { cloud in
+        cloud.removeFromSuperview()
+      }
+      clouds = Array(clouds.suffix(currentCloudCount))
+    }
+  }
+
   // MARK: - Fuel
   
   func startFuelAnimation() {
@@ -193,6 +234,7 @@ private extension GameViewController {
     
     for fuel in fuels {
       let collision = checkCollision(with: fuel.frame)
+      print("Checking collision with fuel at frame: \(fuel.frame)")
       if collision {
         print("Collision detected with fuel!")
         module.gameScore.value += 1
@@ -206,22 +248,25 @@ private extension GameViewController {
     guard let airplane = airplane else { return false }
     
     let airplaneFrame = airplane.frame
+    print("Checking collision with airplane at frame: \(airplaneFrame), with object at frame: \(endFrame)")
     let collision = endFrame.intersects(airplaneFrame)
-    print("Checking collision with airplane at frame: \(airplaneFrame), result: \(collision)")
+    print("Collision result: \(collision)")
     return collision
   }
   
   func updateCloudPosition(_ cloud: UIImageView) {
     let cloudFrame = cloud.frame
     if cloudFrame.origin.x < 0 {
-      cloud.frame.origin.x = 0
+      cloud.removeFromSuperview()
+      self.clouds.removeAll { $0 == cloud }
     }
   }
   
   func updateFuelPosition(_ fuel: UIImageView) {
     let fuelFrame = fuel.frame
     if fuelFrame.origin.x < 0 {
-      fuel.frame.origin.x = 0
+      fuel.removeFromSuperview()
+      self.fuels.removeAll { $0 == fuel }
     }
   }
   
@@ -277,8 +322,8 @@ private extension GameViewController {
   }
   
   func resumeCloudAnimation(cloud: UIImageView, startX: CGFloat, duration: TimeInterval) {
-    cloud.frame.origin.x = startX
-    UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
+    let remainingDuration = (startX / partsView.frame.width) * duration
+    UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
       cloud.frame.origin.x = -cloud.frame.width
     }, completion: { _ in
       cloud.removeFromSuperview()
@@ -290,8 +335,8 @@ private extension GameViewController {
   }
   
   func resumeFuelAnimation(fuel: UIImageView, startX: CGFloat, duration: TimeInterval) {
-    fuel.frame.origin.x = startX
-    UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
+    let remainingDuration = (startX / partsView.frame.width) * duration
+    UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
       fuel.frame.origin.x = -fuel.frame.width
     }, completion: { _ in
       fuel.removeFromSuperview()
@@ -309,24 +354,26 @@ private extension GameViewController {
     fuelAnimations.removeAll()
     
     for cloud in clouds {
-      let duration = cloud.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
+      let animationDuration = cloud.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
         cloud.layer.animation(forKey: $0)?.duration
       }.first ?? 0
-      cloudAnimations[cloud] = (startX: cloud.frame.origin.x, duration: duration)
+      cloudAnimations[cloud] = (startX: cloud.frame.origin.x, duration: animationDuration)
       cloud.layer.removeAllAnimations()
     }
     
     for fuel in fuels {
-      let duration = fuel.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
+      let animationDuration = fuel.layer.presentation()?.animationKeys()?.compactMap { $0 }.compactMap {
         fuel.layer.animation(forKey: $0)?.duration
       }.first ?? 0
-      fuelAnimations.append((fuel, startX: fuel.frame.origin.x, duration: duration))
+      fuelAnimations.append((fuel, startX: fuel.frame.origin.x, duration: animationDuration))
       fuel.layer.removeAllAnimations()
     }
   }
-  
+
   func resumeGame() {
-    backgroundMusicPlayer?.play()
+    if let player = backgroundMusicPlayer, !player.isPlaying {
+      player.play()
+    }
     gameIsRunning = true
     
     for (cloud, (startX, duration)) in cloudAnimations {
@@ -339,7 +386,7 @@ private extension GameViewController {
     }
     fuelAnimations.removeAll()
   }
-  
+
 }
 
 extension GameViewController: SettingsViewControllerDelegate {
