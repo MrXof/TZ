@@ -118,65 +118,37 @@ private extension GameViewController {
     cloud.frame = CGRect(x: startX, y: startY, width: cloudHeight, height: cloudHeight)
     partsView.addSubview(cloud)
     
-    let duration: TimeInterval
-    switch module.gameScore.value {
-    case 0..<10:
-      duration = TimeInterval(CGFloat.random(in: 4...8))
-    case 10..<15:
-      duration = TimeInterval(CGFloat.random(in: 6...10))
-    case 15..<20:
-      duration = 10
-    default:
-      duration = TimeInterval(CGFloat.random(in: 4...8))
-    }
-    
+    animateCloud(cloud: cloud, startX: startX, duration: TimeInterval(CGFloat.random(in: 4...8)))
+  }
+  
+  func animateCloud(cloud: UIImageView, startX: CGFloat, duration: TimeInterval) {
+    let halfDuration = duration / 2
     let endX = -cloud.frame.width
     
-    UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
-      cloud.frame.origin.x = endX
+    UIView.animate(withDuration: halfDuration, delay: 0, options: [.curveLinear], animations: {
+      cloud.frame.origin.x = endX / 2
     }, completion: { _ in
-      self.updateCloudPosition(cloud)
       self.checkCollisions()
-      cloud.removeFromSuperview()
-      if let index = self.clouds.firstIndex(of: cloud) {
-        self.clouds.remove(at: index)
-      }
       if self.gameIsRunning {
-        self.adjustCloudCount()
-        self.createAndAnimateCloud()
+        let remainingDuration = duration - halfDuration
+        UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
+          cloud.frame.origin.x = endX
+        }, completion: { _ in
+          self.updateCloudPosition(cloud)
+          cloud.removeFromSuperview()
+          self.clouds.removeAll { $0 == cloud }
+          if self.gameIsRunning {
+            self.createAndAnimateCloud()
+          }
+        })
+      } else {
+        cloud.removeFromSuperview()
+        self.clouds.removeAll { $0 == cloud }
       }
     })
   }
   
-  func adjustCloudCount() {
-    let currentCloudCount: Int
-    
-    switch module.gameScore.value {
-    case 0..<5:
-      currentCloudCount = 1
-    case 5..<10:
-      currentCloudCount = 2
-    case 10..<15:
-      currentCloudCount = 3
-    case 15..<20:
-      currentCloudCount = 4
-    default:
-      currentCloudCount = 1
-    }
-    
-    let difference = currentCloudCount - clouds.count
-    if difference > 0 {
-      for _ in 0..<difference {
-        createAndAnimateCloud()
-      }
-    } else if difference < 0 {
-      clouds.prefix(-difference).forEach { cloud in
-        cloud.removeFromSuperview()
-      }
-      clouds = Array(clouds.suffix(currentCloudCount))
-    }
-  }
-
+  
   // MARK: - Fuel
   
   func startFuelAnimation() {
@@ -201,20 +173,32 @@ private extension GameViewController {
     fuel.frame = CGRect(x: startX, y: startY, width: fuelHeight, height: fuelHeight)
     partsView.addSubview(fuel)
     
-    let duration = TimeInterval(CGFloat.random(in: 4...8))
+    animateFuel(fuel: fuel, startX: startX, duration: TimeInterval(CGFloat.random(in: 4...8)))
+  }
+  
+  func animateFuel(fuel: UIImageView, startX: CGFloat, duration: TimeInterval) {
+    let halfDuration = duration / 2
     let endX = -fuel.frame.width
     
-    UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
-      fuel.frame.origin.x = endX
+    UIView.animate(withDuration: halfDuration, delay: 0, options: [.curveLinear], animations: {
+      fuel.frame.origin.x = endX / 2
     }, completion: { _ in
-      self.updateFuelPosition(fuel)
       self.checkCollisions()
-      fuel.removeFromSuperview()
-      if let index = self.fuels.firstIndex(of: fuel) {
-        self.fuels.remove(at: index)
-      }
       if self.gameIsRunning {
-        self.createAndAnimateFuel()
+        let remainingDuration = duration - halfDuration
+        UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
+          fuel.frame.origin.x = endX
+        }, completion: { _ in
+          self.updateFuelPosition(fuel)
+          fuel.removeFromSuperview()
+          self.fuels.removeAll { $0 == fuel }
+          if self.gameIsRunning {
+            self.createAndAnimateFuel()
+          }
+        })
+      } else {
+        fuel.removeFromSuperview()
+        self.fuels.removeAll { $0 == fuel }
       }
     })
   }
