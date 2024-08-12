@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 final class GameViewController: UIViewController {
   
@@ -15,6 +16,7 @@ final class GameViewController: UIViewController {
   private let module = GameModule()
   private var cloudAnimations: [UIImageView: (startX: CGFloat, duration: TimeInterval)] = [:]
   private var fuelAnimations: [(UIImageView, startX: CGFloat, duration: TimeInterval)] = []
+  private var backgroundMusicPlayer: AVAudioPlayer?
   
   var currentPosition = Int()
   var clouds: [UIImageView] = []
@@ -26,6 +28,7 @@ final class GameViewController: UIViewController {
     super.viewDidLoad()
     
     startCloudsAnimation()
+    setupBackgroundMusic()
     startFuelAnimation()
     setupBinding()
     setImageViewPosition()
@@ -240,7 +243,24 @@ private extension GameViewController {
   
   // MARK: - OtherSettings
   
+  func setupBackgroundMusic() {
+    guard let url = Bundle.main.url(forResource: "backgroundMusic", withExtension: "mp3") else {
+      print("Failed to find background music file.")
+      return
+    }
+    
+    do {
+      backgroundMusicPlayer = try AVAudioPlayer(contentsOf: url)
+      backgroundMusicPlayer?.numberOfLoops = -1
+      backgroundMusicPlayer?.prepareToPlay()
+      backgroundMusicPlayer?.play()
+    } catch {
+      print("Failed to initialize AVAudioPlayer: \(error.localizedDescription)")
+    }
+  }
+  
   func restartGame() {
+    setupBackgroundMusic()
     currentPosition = 3
     clouds.forEach { $0.removeFromSuperview() }
     clouds.removeAll()
@@ -283,6 +303,7 @@ private extension GameViewController {
   }
   
   func pauseGame() {
+    backgroundMusicPlayer?.pause()
     gameIsRunning = false
     cloudAnimations.removeAll()
     fuelAnimations.removeAll()
@@ -305,13 +326,18 @@ private extension GameViewController {
   }
   
   func resumeGame() {
+    backgroundMusicPlayer?.play()
     gameIsRunning = true
+    
     for (cloud, (startX, duration)) in cloudAnimations {
       resumeCloudAnimation(cloud: cloud, startX: startX, duration: duration)
     }
+    cloudAnimations.removeAll()
+    
     for (fuel, startX, duration) in fuelAnimations {
       resumeFuelAnimation(fuel: fuel, startX: startX, duration: duration)
     }
+    fuelAnimations.removeAll()
   }
   
 }

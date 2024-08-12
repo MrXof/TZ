@@ -10,6 +10,7 @@
 		E441E9F22C66913300A1D490 /* AboutViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E441E9F12C66913300A1D490 /* AboutViewContoller.swift */; };
 		E441E9F42C66917100A1D490 /* AboutViewContoller.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E441E9F32C66917100A1D490 /* AboutViewContoller.storyboard */; };
 		E441E9F62C66A99600A1D490 /* GameModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = E441E9F52C66A99600A1D490 /* GameModule.swift */; };
+		E441E9FF2C6A1EF100A1D490 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = E441E9FE2C6A1EF100A1D490 /* backgroundMusic.mp3 */; };
 		E477168D2C63F52E007CCF05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E477168C2C63F52E007CCF05 /* AppDelegate.swift */; };
 		E477168F2C63F52E007CCF05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E477168E2C63F52E007CCF05 /* SceneDelegate.swift */; };
 		E47716912C63F52E007CCF05 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47716902C63F52E007CCF05 /* ViewController.swift */; };
@@ -26,6 +27,7 @@
 		E441E9F12C66913300A1D490 /* AboutViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewContoller.swift; sourceTree = "<group>"; };
 		E441E9F32C66917100A1D490 /* AboutViewContoller.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AboutViewContoller.storyboard; sourceTree = "<group>"; };
 		E441E9F52C66A99600A1D490 /* GameModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModule.swift; sourceTree = "<group>"; };
+		E441E9FE2C6A1EF100A1D490 /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
 		E47716892C63F52E007CCF05 /* TZ-Wild Wild.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TZ-Wild Wild.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E477168C2C63F52E007CCF05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E477168E2C63F52E007CCF05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				E47716952C63F530007CCF05 /* Assets.xcassets */,
 				E47716972C63F530007CCF05 /* LaunchScreen.storyboard */,
 				E477169A2C63F530007CCF05 /* Info.plist */,
+				E441E9FE2C6A1EF100A1D490 /* backgroundMusic.mp3 */,
 			);
 			path = "TZ-Wild Wild";
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			files = (
 				E47716962C63F530007CCF05 /* Assets.xcassets in Resources */,
 				E47716A82C63FF93007CCF05 /* GameViewController.storyboard in Resources */,
+				E441E9FF2C6A1EF100A1D490 /* backgroundMusic.mp3 in Resources */,
 				E47716AF2C640446007CCF05 /* SettingsViewController.storyboard in Resources */,
 				E47716992C63F530007CCF05 /* Base in Resources */,
 				E47716942C63F52E007CCF05 /* Base in Resources */,
