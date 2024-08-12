@@ -39,6 +39,7 @@ final class GameViewController: UIViewController {
     startFuelAnimation()
     setupBinding()
     setImageViewPosition()
+    addPanGestureToAirplane()
   }
   
   @IBAction func showSettingsDetails(_ sender: Any) {
@@ -105,7 +106,7 @@ private extension GameViewController {
   // MARK: - Cloud
   
   func startCloudsAnimation() {
-    for cloud in 0..<3 {
+    for _ in 0..<3 {
       createAndAnimateCloud()
     }
   }
@@ -397,6 +398,28 @@ private extension GameViewController {
     }
   }
   
+  // MARK: - PanGesture
+  
+  func addPanGestureToAirplane() {
+    guard let airplane = airplane else { return }
+    
+    let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+    airplane.isUserInteractionEnabled = true
+    airplane.addGestureRecognizer(panGesture)
+  }
+  
+  @objc private func handlePanGesture(_ sender: UIPanGestureRecognizer) {
+    guard let airplane = airplane else { return }
+    
+    let translation = sender.translation(in: partsView)
+    
+    airplane.center = CGPoint(x: airplane.center.x, y: airplane.center.y + translation.y)
+    
+    sender.setTranslation(.zero, in: partsView)
+    
+    checkCollisions()
+  }
+
 }
 
 extension GameViewController: SettingsViewControllerDelegate {
