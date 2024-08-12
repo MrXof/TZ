@@ -128,22 +128,32 @@ private extension GameViewController {
     cloud.frame = CGRect(x: startX, y: startY, width: cloudHeight, height: cloudHeight)
     partsView.addSubview(cloud)
     
-    let cloudDuration = CGFloat.random(in: difficultyThreshold[difficultyLevel]?.cloudDuration ?? 4...8)
-    let duration = TimeInterval(cloudDuration * 0.5)
-    
+    let duration = TimeInterval(CGFloat.random(in: difficultyThreshold[difficultyLevel]?.cloudDuration ?? 4...8))
     animateCloud(cloud: cloud, startX: startX, duration: duration)
   }
   
   func animateCloud(cloud: UIImageView, startX: CGFloat, duration: TimeInterval) {
+    let halfDuration = duration / 2
     let endX = -cloud.frame.width
-    UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
-      cloud.frame.origin.x = endX
+    
+    UIView.animate(withDuration: halfDuration, delay: 0, options: [.curveLinear], animations: {
+      cloud.frame.origin.x = endX / 2
     }, completion: { _ in
       self.checkCollisions()
       if self.gameIsRunning {
-        cloud.removeFromSuperview()
-        self.clouds.removeAll { $0 == cloud }
-        self.createAndAnimateCloud()
+        let remainingDuration = duration - halfDuration
+        UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
+          cloud.frame.origin.x = endX
+        }, completion: { _ in
+          self.updateCloudPosition(cloud)
+          
+          cloud.removeFromSuperview()
+          self.clouds.removeAll { $0 == cloud }
+          
+          if self.gameIsRunning {
+            self.createAndAnimateCloud()
+          }
+        })
       } else {
         cloud.removeFromSuperview()
         self.clouds.removeAll { $0 == cloud }
@@ -175,22 +185,30 @@ private extension GameViewController {
     fuel.frame = CGRect(x: startX, y: startY, width: fuelHeight, height: fuelHeight)
     partsView.addSubview(fuel)
     
-    let fuelDuration = CGFloat.random(in: difficultyThreshold[difficultyLevel]?.fuelDuration ?? 4...8)
-    let duration = TimeInterval(fuelDuration * 0.5)
-    
+    let duration = TimeInterval(CGFloat.random(in: difficultyThreshold[difficultyLevel]?.fuelDuration ?? 4...8))
     animateFuel(fuel: fuel, startX: startX, duration: duration)
   }
   
   func animateFuel(fuel: UIImageView, startX: CGFloat, duration: TimeInterval) {
+    let halfDuration = duration / 2
     let endX = -fuel.frame.width
-    UIView.animate(withDuration: duration, delay: 0, options: [.curveLinear], animations: {
-      fuel.frame.origin.x = endX
+    
+    UIView.animate(withDuration: halfDuration, delay: 0, options: [.curveLinear], animations: {
+      fuel.frame.origin.x = endX / 2
     }, completion: { _ in
       self.checkCollisions()
       if self.gameIsRunning {
-        fuel.removeFromSuperview()
-        self.fuels.removeAll { $0 == fuel }
-        self.createAndAnimateFuel()
+        let remainingDuration = duration - halfDuration
+        UIView.animate(withDuration: remainingDuration, delay: 0, options: [.curveLinear], animations: {
+          fuel.frame.origin.x = endX
+        }, completion: { _ in
+          self.updateFuelPosition(fuel)
+          fuel.removeFromSuperview()
+          self.fuels.removeAll { $0 == fuel }
+          if self.gameIsRunning {
+            self.createAndAnimateFuel()
+          }
+        })
       } else {
         fuel.removeFromSuperview()
         self.fuels.removeAll { $0 == fuel }
@@ -392,4 +410,3 @@ extension GameViewController: SettingsViewControllerDelegate {
     resumeGame()
   }
 }
-
