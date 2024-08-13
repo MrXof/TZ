@@ -345,13 +345,20 @@ private extension GameViewController {
   func pauseGame() {
     backgroundMusicPlayer?.pause()
     gameIsRunning = false
-    cloudAnimations.removeAll()
-    fuelAnimations.removeAll()
     
+    cloudAnimations.removeAll()
     for cloud in clouds {
+      let startX = cloud.frame.origin.x
+      let duration = TimeInterval((partsView.frame.width - startX) / cloud.frame.width * (difficultyThreshold[difficultyLevel]?.cloudDuration.upperBound ?? 8))
+      cloudAnimations[cloud] = (startX, duration)
       cloud.layer.removeAllAnimations()
     }
+    
+    fuelAnimations.removeAll()
     for fuel in fuels {
+      let startX = fuel.frame.origin.x
+      let duration = TimeInterval((partsView.frame.width - startX) / fuel.frame.width * (difficultyThreshold[difficultyLevel]?.fuelDuration.upperBound ?? 8))
+      fuelAnimations.append((fuel, startX, duration))
       fuel.layer.removeAllAnimations()
     }
   }
